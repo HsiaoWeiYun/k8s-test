@@ -1,0 +1,16 @@
+apiVersion: v1 #描述文件遵循V1 API
+kind: Pod #指定資源類型
+metadata:
+  name: demo-pod #pod name
+  labels:
+    env: dev
+    app: demo
+spec:
+  nodeSelector: #調度到具有特定標籤的節點上
+    kubernetes.io/hostname: "docker-desktop"
+  containers:
+    - image: demo:v1 #創建容器所用image
+      name: demo #容器名稱
+      ports:
+        - containerPort: 8080 #容器監聽端口
+          protocol: TCP
