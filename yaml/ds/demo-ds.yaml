@@ -1,0 +1,18 @@
+apiVersion: apps/v1beta2
+kind: DaemonSet
+metadata:
+  name: demo-ds
+spec:
+  selector:
+    matchLabels:
+      app: ssd-moinitor
+  template:
+    metadata:
+      labels:
+        app: ssd-moinitor
+    spec:
+      nodeSelector: #會選擇有此標籤的節點部署
+        kubernetes.io/hostname: "docker-desktop"
+      containers:
+        - name: main
+          image: luksa/ssd-monitor
