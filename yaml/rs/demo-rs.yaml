@@ -1,0 +1,37 @@
+apiVersion: apps/v1beta2 #api組/版號
+kind: ReplicaSet
+metadata:
+  name: demo-rs
+spec:
+  replicas: 2
+  selector:
+#    matchLabels: #簡單且表達力不足的matchLabels
+#      env: dev
+#      app: demo
+    matchExpressions: #全為true時才成立
+      - key: env
+        operator: In #標籤包含多個值
+        values:
+          - dev
+      - key: env
+        operator: NotIn #標籤不包含多個值
+        values:
+          - rls
+      - key: app
+        operator: Exists #標籤是否存在, 值不重要
+      - key: test
+        operator: DoesNotExist #標籤不存在
+  template:
+    metadata:
+      labels:
+        env: dev
+        app: demo
+    spec:
+      nodeSelector: #調度到具有特定標籤的節點上
+        kubernetes.io/hostname: "docker-desktop"
+      containers:
+        - image: demo:v1 #創建容器所用image
+          name: demo #容器名稱
+          ports:
+            - containerPort: 8080 #容器監聽端口
+              protocol: TCP
