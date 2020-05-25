@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: demo-job
+  namespace: test
+spec:
+  completions: 5 #一個一個接續運行5個pod
+  parallelism: 2 #同時最多可以同時跑兩個
+  backoffLimit: 1 #失敗retry次數
+  template:
+    metadata:
+      labels:
+        app: demo-job
+    spec:
+      activeDeadlineSeconds: 30 #多久沒完成就算失敗
+      restartPolicy: OnFailure
+      containers:
+        - name: main
+          image: luksa/batch-job
