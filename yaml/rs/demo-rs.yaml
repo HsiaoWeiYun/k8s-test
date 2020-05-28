@@ -35,3 +35,4 @@ spec:
           ports:
             - containerPort: 8080 #容器監聽端口
               protocol: TCP
+              name: demo-default #命名這個port
