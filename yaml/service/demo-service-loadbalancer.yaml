@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-service
+  namespace: test
+spec:
+  type: LoadBalancer #若無法提供此服務則仍像NodePort表現一樣
+  ports:
+    - port: 80
+      targetPort: demo-default #使用已經命名過的port 8080
+  selector:
+    app: demo
+    env: dev
