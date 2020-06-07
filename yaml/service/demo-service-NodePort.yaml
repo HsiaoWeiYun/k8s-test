@@ -6,9 +6,9 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 80
+    - port: 80  #集群ip端口號
       targetPort: demo-default #使用已經命名過的port 8080
-      nodePort: 30123
+      nodePort: 30123  #透過node的30123端口可以訪問
   selector:
     app: demo
     env: dev

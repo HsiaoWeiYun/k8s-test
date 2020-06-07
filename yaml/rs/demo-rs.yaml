@@ -32,6 +32,18 @@ spec:
       containers:
         - image: demo:v1 #創建容器所用image
           name: demo #容器名稱
+          readinessProbe: #就緒探針意味著檢測是否就緒開始接收流量, 檢測失敗則從svc內移除endpoints
+            httpGet:  #使用http
+              port: 8080 #檢查接口port
+              path: /ready #接口位置
+            initialDelaySeconds: 20 #啟動時等待多少秒檢測
+            periodSeconds: 6 #每隔多少秒檢測
+          livenessProbe: #存活探針意味著這個服務是否還活著, 監測失敗則重建pod
+            httpGet: #使用http
+              port: 8080 #檢查接口port
+              path: /live #接口位置
+            initialDelaySeconds: 20 #啟動時等待多少秒檢測
+            periodSeconds: 6 #每隔多少秒檢測
           ports:
             - containerPort: 8080 #容器監聽端口
               protocol: TCP

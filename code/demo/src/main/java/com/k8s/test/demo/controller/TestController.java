@@ -20,4 +20,14 @@ public class TestController {
         return ip.getHostName();
     }
 
+    @GetMapping(path = "/live")
+    public String live(){
+        return "SUCCESS";
+    }
+
+    @GetMapping(path = "/ready")
+    public String ready(){
+        return "SUCCESS";
+    }
+
 }
