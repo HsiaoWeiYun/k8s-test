@@ -35,6 +35,13 @@ spec:
           volumeMounts:
             - mountPath: /tmp-dir
               name: tmp-dir
+            - mountPath: /git-repo  #沒辦法即時檢測更新, 若要即時更新應該要用sidecard的方式
+              name: git-repo
+              readOnly: true
+            - mountPath: /tmp
+              name: host
+            - mountPath: /demo-pvc
+              name: demo-pvc
           readinessProbe: #就緒探針意味著檢測是否就緒開始接收流量, 檢測失敗則從svc內移除endpoints
             httpGet:  #使用http
               port: 8080 #檢查接口port
@@ -54,3 +61,14 @@ spec:
       volumes:
         - name: tmp-dir
           emptyDir: {}
+        - name: git-repo
+          gitRepo:
+            repository: https://github.com/HsiaoWeiYun/infra.git  #git倉位置
+            revision: master  #branch
+            directory: .  #repo clone 到根目錄
+        - name: host
+          hostPath:
+            path: /tmp
+        - name: demo-pvc
+          persistentVolumeClaim:
+            claimName: demo-pvc

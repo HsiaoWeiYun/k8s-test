@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: demo-pv
+  #pv不屬於任何命名空間
+spec:
+  capacity:
+    storage: 1M  #定義大小
+  accessModes: #指定存取模式
+    - ReadWriteOnce
+    - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Retain #當pvc被釋放時pv將會被保留, 不清理與刪除
+  hostPath:
+    path: /Users/victor
