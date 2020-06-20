@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.time.ZonedDateTime;
 
 
 @RestController
@@ -48,6 +49,11 @@ public class TestController {
         fos.close();
 
         return "SUCCESS";
+    }
+
+    @GetMapping(path = "/now-zone")
+    public String nowZone(){
+        return System.getProperty("user.timezone");
     }
 
 }
