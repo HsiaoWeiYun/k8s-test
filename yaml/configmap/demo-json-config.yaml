@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: json-config
+  namespace: test
+data:
+  demo-json-config.json: "{\"json_config_1\": \"abc123\",\"json_config_2\": \"abc456\"}"

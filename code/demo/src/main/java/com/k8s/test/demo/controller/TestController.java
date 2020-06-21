@@ -11,6 +11,8 @@ import java.io.FileOutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -55,5 +57,14 @@ public class TestController {
     public String nowZone(){
         return System.getProperty("user.timezone");
     }
+
+    @GetMapping(path = "/env")
+    public List<String> getEnv(){
+        List<String> env = new ArrayList<>();
+        env.add(System.getenv("single_config"));
+        env.add(System.getenv("json_config"));
+        return env;
+    }
+
 
 }

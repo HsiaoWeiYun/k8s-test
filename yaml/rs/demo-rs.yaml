@@ -42,6 +42,24 @@ spec:
               name: host
             - mountPath: /demo-pvc
               name: demo-pvc
+            - name: file-config-volume #掛configmap volume, spring boot 已改用此volume下的application.yml
+              #直接runtime更改作為volume的configmap是會動態生效的(生效時間不一定幾秒至幾分鐘且更新頻率每個pod不是一至), 掛載原已存在的dir會無效.
+              mountPath: /ap-config
+              readOnly: true
+            - name: json-config-volume #volume名稱, 此volume內容是volume
+              mountPath: /tmp/json-config.conf #掛載位置, 此指定為一個文件
+              subPath: demo-json-config.json #不指定此屬性則會把整個/tmp其餘的檔案隱藏起來, 只保留被掛載文件系統的文件
+          env:
+            - name: single_config
+              valueFrom:
+                configMapKeyRef:
+                  name: demo-single-config #configmap作為環境變數
+                  key: single_config
+            - name: json_config
+              valueFrom:
+                configMapKeyRef:
+                  name: json-config #configmap作為環境變數, 這個環境變數是一個json
+                  key: demo-json-config.json
           readinessProbe: #就緒探針意味著檢測是否就緒開始接收流量, 檢測失敗則從svc內移除endpoints
             httpGet:  #使用http
               port: 8080 #檢查接口port
@@ -72,3 +90,10 @@ spec:
         - name: demo-pvc
           persistentVolumeClaim:
             claimName: demo-pvc
+        - name: file-config-volume #configmap volume
+          configMap:
+            name: file-config
+        - name: json-config-volume
+          configMap:
+            name: json-config
+            defaultMode: 0777 #指定權限

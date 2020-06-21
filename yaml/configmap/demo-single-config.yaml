@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-single-config
+  namespace: test
+data:
+  single_config: "single_config123"
